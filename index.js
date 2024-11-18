@@ -2,7 +2,7 @@
 const express = require('express');
 const fetch = require('node-fetch');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 8080;
 
 const FINNHUB_KEY = 'cstm8fpr01qj0ou20gc0cstm8fpr01qj0ou20gcg';
 const FINNHUB_BASE_URL = 'https://finnhub.io/api/v1';
