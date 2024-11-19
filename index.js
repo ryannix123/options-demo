@@ -1,4 +1,3 @@
-// index.js
 const express = require('express');
 const fetch = require('node-fetch');
 const app = express();
@@ -12,7 +11,9 @@ app.set('view engine', 'ejs');
 async function fetchQuote(symbol) {
     try {
         const response = await fetch(`${FINNHUB_BASE_URL}/quote?symbol=${symbol}&token=${FINNHUB_KEY}`);
-        return await response.json();
+        const data = await response.json();
+        console.log(`Data for ${symbol}:`, data); // Debug logging
+        return data;
     } catch (error) {
         console.error(`Error fetching ${symbol}:`, error);
         return null;
@@ -22,24 +23,24 @@ async function fetchQuote(symbol) {
 async function getMarketData() {
     const symbols = {
         futures: [
-            { symbol: 'ES=F', name: 'E-mini S&P 500' },
-            { symbol: 'NQ=F', name: 'E-mini NASDAQ' },
-            { symbol: 'YM=F', name: 'E-mini Dow' }
+            { symbol: '/ES', name: 'E-mini S&P 500 Futures' },
+            { symbol: '/NQ', name: 'E-mini NASDAQ Futures' },
+            { symbol: '/YM', name: 'E-mini Dow Futures' }
         ],
         equities: [
-            { symbol: 'SPY', name: 'S&P 500 Index' },
-            { symbol: 'QQQ', name: 'NASDAQ Composite' },
-            { symbol: 'DIA', name: 'Dow Jones Industrial' }
+            { symbol: 'SPY', name: 'S&P 500 ETF' },
+            { symbol: 'QQQ', name: 'NASDAQ 100 ETF' },
+            { symbol: 'DIA', name: 'Dow Jones ETF' }
         ],
         usOptions: [
-            { symbol: 'VIX', name: 'VIX Index' },
-            { symbol: 'RUT', name: 'Russell 2000' },
-            { symbol: 'OEX', name: 'S&P 100' }
+            { symbol: 'UVXY', name: 'ProShares Ultra VIX' },
+            { symbol: 'SVXY', name: 'ProShares Short VIX' },
+            { symbol: 'VXX', name: 'iPath Series B S&P 500 VIX' }
         ],
         euOptions: [
-            { symbol: 'STOXX', name: 'EURO STOXX 50' },
-            { symbol: 'DAX', name: 'DAX Index' },
-            { symbol: 'FTSE', name: 'FTSE 100' }
+            { symbol: 'FEZ', name: 'EURO STOXX 50 ETF' },
+            { symbol: 'EWG', name: 'Germany ETF' },
+            { symbol: 'EWU', name: 'UK ETF' }
         ]
     };
 
@@ -55,6 +56,8 @@ async function getMarketData() {
                     price: quote?.c,
                     change: quote?.d,
                     changePercent: quote?.dp,
+                    high: quote?.h,
+                    low: quote?.l,
                     volume: quote?.v
                 };
             })

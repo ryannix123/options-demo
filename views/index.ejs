@@ -51,6 +51,10 @@
         tr:hover {
             background: #f8fafc;
         }
+        .range {
+            font-size: 0.9em;
+            color: #64748b;
+        }
     </style>
 </head>
 <body>
@@ -74,6 +78,7 @@
                         <th>Index</th>
                         <th>Price</th>
                         <th>Change</th>
+                        <th>Day Range</th>
                         <th>Volume</th>
                     </tr>
                 </thead>
@@ -85,6 +90,9 @@
                             <td class="<%= (item.change || 0) >= 0 ? 'up' : 'down' %>">
                                 <%= item.change?.toFixed(2) || 'N/A' %>
                                 (<%= item.changePercent?.toFixed(2) || 'N/A' %>%)
+                            </td>
+                            <td class="range">
+                                <%= item.low?.toFixed(2) || 'N/A' %> - <%= item.high?.toFixed(2) || 'N/A' %>
                             </td>
                             <td><%= item.volume?.toLocaleString() || 'N/A' %></td>
                         </tr>
