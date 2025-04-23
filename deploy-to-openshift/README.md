@@ -7,26 +7,46 @@ This guide walks you through deploying the containerized **Options Market Dashbo
 - A free account at [developers.redhat.com](https://developers.redhat.com/developer-sandbox)
 - Access to OpenShift Web Console or CLI (`oc`)
 - A container image pushed to Quay (e.g., `quay.io/ryan_nix/options_demo`)
+- A [free API key from Finnhub.io](https://finnhub.io/register)
+
+---
+
+## 🔐 Step 0: Add Your Finnhub API Key as a Secret
+
+Before deploying the app, store your API key securely in OpenShift:
+
+```bash
+oc create secret generic finnhub-secret \
+  --from-literal=FINNHUB_KEY=your_finnhub_key
+```
+
+> Replace `your_finnhub_key` with your actual Finnhub API key.
 
 ---
 
 ## 🔄 Step 1: Deploy the Container on OpenShift
 
 1. Log into the Developer Sandbox at [https://console.redhat.com/openshift](https://console.redhat.com/openshift)
-2. Select your default project (namespace), e.g. `ryan-nix-dev`
+2. Create or select a project (namespace), e.g. `ryan-nix-dev`
 3. Create a deployment using your Quay image:
 
    ```bash
    oc new-app quay.io/ryan_nix/options_demo --name=options
    ```
 
-4. Expose the app with a public route:
+4. Set the secret as an environment variable in your deployment:
+
+   ```bash
+   oc set env deployment/options --from=secret/finnhub-secret
+   ```
+
+5. Expose the app with a public route:
 
    ```bash
    oc expose svc/options
    ```
 
-5. View the app by clicking the route in the OpenShift Web Console
+6. View the app by clicking the route in the OpenShift Web Console
 
 ---
 
