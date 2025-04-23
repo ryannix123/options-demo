@@ -31,7 +31,7 @@ oc create secret generic finnhub-secret \
 3. Create a deployment using your Quay image:
 
    ```bash
-   oc new-app quay.io/ryan_nix/options_demo --name=options
+   oc new-app quay.io/your_repo/options_demo --name=options
    ```
 
 4. Set the secret as an environment variable in your deployment:
