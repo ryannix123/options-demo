@@ -12,7 +12,7 @@ This is a simple, containerized **Node.js + Express** application that displays 
 
 ## 🔍 Features
 
-- Built on **Red Hat UBI 9 + Node.js 18** (non-root friendly for OpenShift)
+- Built on **Red Hat UBI 9 + Node.js 22** (non-root friendly for OpenShift)
 - Uses **EJS templates** for rendering a dynamic dashboard
 - Fetches real-time stock, futures, and ETF data from Finnhub
 - Logo display and layout formatting for demo polish
