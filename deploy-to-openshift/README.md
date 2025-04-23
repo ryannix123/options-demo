@@ -31,7 +31,7 @@ oc create secret generic finnhub-secret \
 3. Create a deployment using your Quay image:
 
    ```bash
-   oc new-app quay.io/your_repo/options_demo --name=options
+   oc new-app quay.io/ryan_nix/options_demo --name=options
    ```
 
 4. Set the secret as an environment variable in your deployment:
@@ -40,13 +40,15 @@ oc create secret generic finnhub-secret \
    oc set env deployment/options --from=secret/finnhub-secret
    ```
 
-5. Expose the app with a public route:
+5. Expose the app with a **secure route on port 8080 with automatic TLS redirect**:
 
    ```bash
-   oc expose svc/options
+   oc expose svc/options --port=8080 --name=options-secure && \
+   oc annotate route options-secure \
+     haproxy.router.openshift.io/ssl-redirect=true --overwrite
    ```
 
-6. View the app by clicking the route in the OpenShift Web Console
+6. Visit the application by clicking the generated HTTPS route in the OpenShift Web Console.
 
 ---
 
