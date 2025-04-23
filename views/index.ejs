@@ -1,112 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Northern Trust Market Tracker</title>
+    <title>Market Overview</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            margin: 20px; 
-            background: #f8fafc; 
-            line-height: 1.6;
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
         }
-        .up { color: #22c55e; font-weight: bold; }
-        .down { color: #ef4444; font-weight: bold; }
-        .section { 
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
         }
-        .logo-container { 
-            text-align: center; 
-            margin: 20px 0; 
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        .logo {
+            max-width: 300px;
+            height: auto;
         }
-        .logo { max-width: 300px; height: auto; }
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin: 10px 0;
+        h2 {
+            border-bottom: 1px solid #ccc;
+            margin-top: 2rem;
         }
-        th, td { 
-            padding: 12px 15px; 
-            text-align: left; 
-            border-bottom: 1px solid #eee;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
         }
-        th { 
-            background: #f8fafc;
-            font-weight: 600;
-            color: #1e293b;
+        th, td {
+            border: 1px solid #ccc;
+            padding: 0.5rem;
+            text-align: center;
         }
-        h2 { 
-            color: #1e293b;
-            margin: 0 0 15px 0;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e2e8f0;
-        }
-        tr:hover {
-            background: #f8fafc;
-        }
-        .range {
-            font-size: 0.9em;
-            color: #64748b;
+        th {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
 <body>
+
     <div class="logo-container">
-        <img src="https://www.logo.wine/a/logo/Northern_Trust/Northern_Trust-Logo.wine.svg" alt="CBOE Logo" class="logo">
+        <img src="/logo.jpg" alt="Logo" class="logo">
     </div>
 
-    <% const sections = [
-        { id: 'futures', title: 'U.S. Futures' },
-        { id: 'equities', title: 'U.S. Equities' },
-        { id: 'usOptions', title: 'U.S. Options' },
-        { id: 'euOptions', title: 'European Options' }
-    ] %>
+    <h1>Market Data</h1>
 
-    <% sections.forEach(section => { %>
-        <div class="section">
-            <h2><%= section.title %></h2>
-            <table>
-                <thead>
+    <% for (const [category, items] of Object.entries(marketData)) { %>
+        <h2><%= category %></h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Symbol</th>
+                    <th>Price</th>
+                    <th>Change</th>
+                    <th>Change %</th>
+                    <th>High</th>
+                    <th>Low</th>
+                    <th>Volume</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (const item of items) { %>
                     <tr>
-                        <th>Index</th>
-                        <th>Price</th>
-                        <th>Change</th>
-                        <th>Day Range</th>
-                        <th>Volume</th>
+                        <td><%= item.name %></td>
+                        <td><%= item.symbol %></td>
+                        <td><%= item.price ?? '-' %></td>
+                        <td><%= item.change ?? '-' %></td>
+                        <td><%= item.changePercent ?? '-' %></td>
+                        <td><%= item.high ?? '-' %></td>
+                        <td><%= item.low ?? '-' %></td>
+                        <td><%= item.volume ?? '-' %></td>
                     </tr>
-                </thead>
-                <tbody>
-                    <% marketData[section.id].forEach(item => { %>
-                        <tr>
-                            <td><%= item.name %></td>
-                            <td>$<%= item.price?.toFixed(2) || 'N/A' %></td>
-                            <td class="<%= (item.change || 0) >= 0 ? 'up' : 'down' %>">
-                                <%= item.change?.toFixed(2) || 'N/A' %>
-                                (<%= item.changePercent?.toFixed(2) || 'N/A' %>%)
-                            </td>
-                            <td class="range">
-                                <%= item.low?.toFixed(2) || 'N/A' %> - <%= item.high?.toFixed(2) || 'N/A' %>
-                            </td>
-                            <td><%= item.volume?.toLocaleString() || 'N/A' %></td>
-                        </tr>
-                    <% }); %>
-                </tbody>
-            </table>
-        </div>
-    <% }); %>
+                <% } %>
+            </tbody>
+        </table>
+    <% } %>
 
-    <script>
-        // Auto-refresh every 10 seconds
-        setInterval(() => {
-            window.location.reload();
-        }, 10000);
-    </script>
 </body>
 </html>

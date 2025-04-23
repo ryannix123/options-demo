@@ -1,6 +1,7 @@
 const express = require('express');
 const fetch = require('node-fetch');
 const app = express();
+app.use(express.static('imgs'));
 const port = process.env.PORT || 8080;
 
 const FINNHUB_KEY = process.env.FINNHUB_KEY;
