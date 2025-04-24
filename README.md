@@ -4,7 +4,7 @@ Containerizing your applications gives you **portability**, **consistency**, and
 - 🚀 Run your app the same way on your laptop, on a server, or in the cloud
 - 📦 Package dependencies and configuration into a single reproducible unit
 - 🔐 Improve security by running as a non-root user
-- 🛠️ Deploy faster and more reliably on platforms like Kubernetes and OpenShift
+- 🛠️ Deploy faster and more reliably on Kubernetes platforms such as OpenShift, AKS, EKS, etc.
 
 ---
 
